@@ -26,7 +26,30 @@ namespace OfType
             return result;
         }
 
-        public IEnumerable<TOutput> GetOfType<TSource, TOutput>(IEnumerable<TSource> enumerable);
-        public IEnumerable<TBase> OfBase<TBase, TDerived>(IEnumerable<TDerived> derivedItems) where TDerived : TBase;
+        public IEnumerable<TOutput> GetOfType<TSource, TOutput>(IEnumerable<TSource> enumerable)
+        {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException("Insserted null IEnumerable. Invalid");
+            }
+            IEnumerable<TOutput> result = new List<TOutput>();
+            foreach (TSource item in enumerable)
+            {
+                if (typeof(TOutput).Equals(item.GetType()))
+                {
+                    result.Append<TOutput>((TOutput)(Object)item);
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<TBase> OfBase<TBase, TDerived>(IEnumerable<TDerived> derivedItems) where TDerived : TBase
+        {
+            if (derivedItems == null)
+            {
+                throw new ArgumentNullException("Insserted null IEnumerable. Invalid");
+            }
+            return (IEnumerable<TBase>)derivedItems;
+        }
     }
 }
